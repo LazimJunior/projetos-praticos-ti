@@ -1,0 +1,15 @@
+ID,Data,Categoria,Cliente,Prioridade;
+101,26/10/2023,ACESSO,João Silva,ALTA;
+102,26/10/2023,Acesso,Maria Oliveira,alta;
+101,26/10/2023,ACESSO,João Silva,ALTA;
+103,27/10/2023, LOGIN,Carlos Souza,Baixa;
+104,27/10/2023,login,Ana Lima,Média;
+102,26/10/2023,Acesso,Maria Oliveira,alta;
+105,28/10/2023,Redefinir Senha,Pedro Santos,UrGente;
+101,26/10/2023,ACESSO,João Silva,ALTA;
+102,26/10/2023,Acesso,Maria Oliveira,alta;
+103,27/10/2023, LOGIN,Carlos Souza,Baixa;
+107,29/10/2023,Wi-fi ruim,Marcos Prates,BAIXA;
+108,NaN,conexao caida,Julia Costa,Alta;
+111,01/11/2023,Acesso!,Joao Silva,ALTA;
+112,01/11/2023,login...,Beto Carvalho,baixa;
