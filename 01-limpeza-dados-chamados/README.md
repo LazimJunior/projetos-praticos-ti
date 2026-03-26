@@ -112,21 +112,3 @@ ID,Data,Categoria,Categoria,Cliente,Prioridade
 ```
 
 ---
-
-## Análise de Trade-offs
-
-### Por que XLSX em vez de CSV para a saída?
-
-O output em `.xlsx` via `openpyxl` tem custo de serialização maior que `.csv`, mas oferece vantagens operacionais concretas neste contexto: (1) a coluna `Data` é serializada como tipo `datetime` nativo do Excel — preservando a possibilidade de filtros e ordenações temporais sem re-parsing; (2) o arquivo é diretamente abrível pelo time de TI sem configuração de delimitadores ou encoding; (3) headers são preservados com formatação. Para pipelines downstream (ingestão em banco, processamento adicional em Python), `.parquet` ou `.csv` seriam superiores — mas o caso de uso aqui é entrega para consumidores humanos.
-
-### Limitação de idempotência: `keep='first'` sem critério de ordenação
-
-```python
-df = df.drop_duplicates(subset=['ID'], keep='first')
-```
-
-`keep='first'` mantém a primeira ocorrência na ordem do arquivo CSV. Se o arquivo não estiver ordenado por data ou por algum critério de "mais recente", o resultado pode reter versões desatualizadas de registros. Em um pipeline de produção, o correto seria primeiro ordenar por data (`df.sort_values('Data', ascending=False)`) antes de deduplicar, garantindo que a versão mais recente de cada chamado seja mantida.
-
-### Ausência de validação de schema pós-limpeza
-
-O script não valida se as transformações produziram os valores esperados. Em dados reais, `Prioridade` poderia conter valores fora do conjunto `{ALTA, MÉDIA, BAIXA}` após normalização — typos como `URGENTE` ou `CRITICA` passariam silenciosamente para o XLSX. Uma asserção de validação pós-processamento (ex: `assert df['Prioridade'].isin({'ALTA', 'MEDIA', 'BAIXA', 'NORMAL'}).all()`) tornaria o pipeline verificável e auto-documentado.
